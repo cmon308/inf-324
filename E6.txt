@@ -1,0 +1,25 @@
+SELECT 
+    p.ci,
+    p.nombre,
+    p.paterno,
+    p.materno,
+    SUM(CASE 
+        WHEN LEFT(pr.id, 1) = '1' THEN 1
+        ELSE 0 
+    END) AS Alto,
+    SUM(CASE 
+        WHEN LEFT(pr.id, 1) = '2' THEN 1
+        ELSE 0 
+    END) AS Medio,
+    SUM(CASE 
+        WHEN LEFT(pr.id, 1) = '3' THEN 1
+        ELSE 0 
+    END) AS Bajo
+FROM 
+    persona p
+LEFT JOIN 
+    propiedad pr ON p.ci = pr.ci_persona
+GROUP BY 
+    p.ci, p.nombre, p.paterno, p.materno
+ORDER BY 
+    p.ci;
